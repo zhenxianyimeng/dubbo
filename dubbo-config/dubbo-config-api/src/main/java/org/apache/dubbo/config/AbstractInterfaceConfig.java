@@ -99,6 +99,7 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
 
     /**
      * Local impl class name for the service interface
+     * 服务接口客户端的本地代理类
      */
     protected String local;
 
@@ -319,7 +320,7 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
     /**
      *
      * Load the registry and conversion it to {@link URL}, the priority order is: system property > dubbo registry config
-     *
+     * 注册中心的注册地址转换成URL
      * @param provider whether it is the provider side
      * @return
      */
@@ -362,7 +363,7 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
     /**
      *
      * Load the monitor config from the system properties and conversation it to {@link URL}
-     *
+     * monitor地址也需要转换为URL
      * @param registryURL
      * @return
      */
@@ -436,7 +437,8 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
     /**
      * Check whether the remote service interface and the methods meet with Dubbo's requirements.it mainly check, if the
      * methods configured in the configuration file are included in the interface of remote service
-     *
+     * 校验接口类非空
+     * 并且方法在接口类中已经被定义
      * @param interfaceClass the interface of remote service
      * @param methods the methods configured
      */
