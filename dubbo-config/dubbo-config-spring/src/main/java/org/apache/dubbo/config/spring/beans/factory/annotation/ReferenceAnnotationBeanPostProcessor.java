@@ -46,7 +46,7 @@ import static org.apache.dubbo.config.spring.beans.factory.annotation.ServiceBea
 /**
  * {@link org.springframework.beans.factory.config.BeanPostProcessor} implementation
  * that Consumer service {@link Reference} annotated fields
- *
+ * 扫描@Reference 注解
  * @since 2.5.7
  */
 public class ReferenceAnnotationBeanPostProcessor extends AnnotationInjectedBeanPostProcessor<Reference>

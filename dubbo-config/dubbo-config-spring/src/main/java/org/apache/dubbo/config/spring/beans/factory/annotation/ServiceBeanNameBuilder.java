@@ -97,6 +97,7 @@ public class ServiceBeanNameBuilder {
         return this;
     }
 
+    //创建 bean Name 例如实例中为: ServiceBean:org.apache.dubbo.demo.DemoService
     public String build() {
         StringBuilder beanNameBuilder = new StringBuilder("ServiceBean").append(SEPARATOR);
         // Required

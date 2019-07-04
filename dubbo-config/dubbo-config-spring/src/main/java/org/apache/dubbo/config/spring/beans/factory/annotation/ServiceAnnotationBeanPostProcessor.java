@@ -70,7 +70,7 @@ import static org.springframework.util.ClassUtils.resolveClassName;
 /**
  * {@link Service} Annotation
  * {@link BeanDefinitionRegistryPostProcessor Bean Definition Registry Post Processor}
- *
+ *  处理被@Service 注解的类
  * @since 2.5.8
  */
 public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistryPostProcessor, EnvironmentAware,
@@ -101,7 +101,7 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-
+        //解析包路径
         Set<String> resolvedPackagesToScan = resolvePackagesToScan(packagesToScan);
 
         if (!CollectionUtils.isEmpty(resolvedPackagesToScan)) {
@@ -350,6 +350,7 @@ public class ServiceAnnotationBeanPostProcessor implements BeanDefinitionRegistr
 
     }
 
+    //TODO duplicate code resolvePackagesToScan
     private Set<String> resolvePackagesToScan(Set<String> packagesToScan) {
         Set<String> resolvedPackagesToScan = new LinkedHashSet<String>(packagesToScan.size());
         for (String packageToScan : packagesToScan) {

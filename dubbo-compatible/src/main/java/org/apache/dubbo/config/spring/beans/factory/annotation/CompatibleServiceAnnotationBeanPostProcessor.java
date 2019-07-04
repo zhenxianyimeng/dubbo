@@ -179,6 +179,7 @@ public class CompatibleServiceAnnotationBeanPostProcessor implements BeanDefinit
      * @see ConfigurationClassPostProcessor#processConfigBeanDefinitions
      * @since 2.5.8
      */
+    //TODO Duplicate code
     private BeanNameGenerator resolveBeanNameGenerator(BeanDefinitionRegistry registry) {
 
         BeanNameGenerator beanNameGenerator = null;
@@ -371,6 +372,7 @@ public class CompatibleServiceAnnotationBeanPostProcessor implements BeanDefinit
 
     }
 
+    //TODO duplicate code resolvePackagesToScan
     private Set<String> resolvePackagesToScan(Set<String> packagesToScan) {
         Set<String> resolvedPackagesToScan = new LinkedHashSet<String>(packagesToScan.size());
         for (String packageToScan : packagesToScan) {
