@@ -24,13 +24,15 @@ import static org.apache.dubbo.rpc.Constants.PROXY_KEY;
 
 /**
  * ProxyFactory. (API/SPI, Singleton, ThreadSafe)
+ * 代理类工厂
  */
 @SPI("javassist")
 public interface ProxyFactory {
 
     /**
      * create proxy.
-     *
+     *  创建Proxy，在引用服务的时候调用
+     *  链路 ReferenceConfig->Protocol->Invoker->ProxyFactory->ref
      * @param invoker
      * @return proxy
      */
@@ -48,7 +50,8 @@ public interface ProxyFactory {
 
     /**
      * create invoker.
-     *
+     * 创建Invoker，在暴露服务的时候调用
+     * 调用链路 ServiceConfig->ProxyFactory->Invoker->Protocol->Exporter
      * @param <T>
      * @param proxy
      * @param type
