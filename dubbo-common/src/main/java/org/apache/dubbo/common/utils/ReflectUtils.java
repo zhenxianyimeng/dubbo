@@ -122,6 +122,7 @@ public final class ReflectUtils {
 
     private static final ConcurrentMap<String, Class<?>> NAME_CLASS_CACHE = new ConcurrentHashMap<String, Class<?>>();
 
+    //TODO 常量尽量都用大写 zhenxianyimeng
     private static final ConcurrentMap<String, Method> Signature_METHODS_CACHE = new ConcurrentHashMap<String, Method>();
 
     private ReflectUtils() {

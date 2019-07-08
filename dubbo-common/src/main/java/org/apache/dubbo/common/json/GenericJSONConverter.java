@@ -417,6 +417,7 @@ public class GenericJSONConverter implements JSONConverter {
         GlobalDecoderMap.put(Locale.class, d);
     }
 
+    //TODO 太多if-else 看能不能优化下 zhenxianyimeng
     @Override
     @SuppressWarnings("unchecked")
     public void writeValue(Object obj, JSONWriter jb, boolean writeClass) throws IOException {

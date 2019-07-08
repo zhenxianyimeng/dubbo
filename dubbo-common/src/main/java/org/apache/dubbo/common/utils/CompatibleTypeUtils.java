@@ -46,6 +46,7 @@ public class CompatibleTypeUtils {
      * <li> float, double -> float, double
      * </ul>
      */
+    //TODO 太多if else 看能不能优化 zhenxianyimeng
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static Object compatibleTypeConvert(Object value, Class<?> type) {
         if (value == null || type == null || type.isAssignableFrom(value.getClass())) {
