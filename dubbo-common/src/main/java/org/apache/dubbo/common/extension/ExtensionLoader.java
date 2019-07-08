@@ -20,14 +20,7 @@ import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.support.ActivateComparator;
 import org.apache.dubbo.common.logger.Logger;
 import org.apache.dubbo.common.logger.LoggerFactory;
-import org.apache.dubbo.common.utils.ArrayUtils;
-import org.apache.dubbo.common.utils.ClassUtils;
-import org.apache.dubbo.common.utils.CollectionUtils;
-import org.apache.dubbo.common.utils.ConcurrentHashSet;
-import org.apache.dubbo.common.utils.ConfigUtils;
-import org.apache.dubbo.common.utils.Holder;
-import org.apache.dubbo.common.utils.ReflectUtils;
-import org.apache.dubbo.common.utils.StringUtils;
+import org.apache.dubbo.common.utils.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -93,6 +86,7 @@ public class ExtensionLoader<T> {
 
     private final Class<?> type;
 
+    //ExtensionFactory 类似spring ioc容器，生成Extension对象
     private final ExtensionFactory objectFactory;
 
     private final ConcurrentMap<Class<?>, String> cachedNames = new ConcurrentHashMap<>();
@@ -342,6 +336,8 @@ public class ExtensionLoader<T> {
     /**
      * Find the extension with the given name. If the specified name is not found, then {@link IllegalStateException}
      * will be thrown.
+     * 返回扩展对象， 对象缓存在cachedInstances
+     * key：dubbo value：DubboProtocol
      */
     @SuppressWarnings("unchecked")
     public T getExtension(String name) {
@@ -357,6 +353,7 @@ public class ExtensionLoader<T> {
             synchronized (holder) {
                 instance = holder.get();
                 if (instance == null) {
+                    //如果不存在实例，则新建实例
                     instance = createExtension(name);
                     holder.set(instance);
                 }
@@ -555,10 +552,12 @@ public class ExtensionLoader<T> {
         }
     }
 
+    //依赖注入，注入依赖的其他扩展类
     private T injectExtension(T instance) {
         try {
             if (objectFactory != null) {
                 for (Method method : instance.getClass().getMethods()) {
+                    //TODO Method Utils has isSetter method zhenxianyimeng
                     if (isSetter(method)) {
                         /**
                          * Check {@link DisableInject} to see if we need auto injection for this property

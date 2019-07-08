@@ -650,6 +650,7 @@ public abstract class AbstractConfig implements Serializable {
 
         Method[] methods = this.getClass().getMethods();
         for (Method method1 : methods) {
+            //TODO isPrimitive is include in isGetter zhenxianyimeng
             if (MethodUtils.isGetter(method1) && ClassUtils.isPrimitive(method1.getReturnType())) {
                 Parameter parameter = method1.getAnnotation(Parameter.class);
                 if (parameter != null && parameter.excluded()) {
