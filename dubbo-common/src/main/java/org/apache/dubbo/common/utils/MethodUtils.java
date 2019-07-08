@@ -30,6 +30,7 @@ public class MethodUtils {
      * <p>
      * 3, only has one parameter
      * TODO add new setter zhenxianyimeng
+     * 需要修改Setter和Getter的名字
      */
     public static boolean isSetter2(Method method) {
         return method.getName().startsWith("set")
