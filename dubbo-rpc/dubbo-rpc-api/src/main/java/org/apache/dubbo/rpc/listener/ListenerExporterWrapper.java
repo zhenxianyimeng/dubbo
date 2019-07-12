@@ -36,6 +36,7 @@ public class ListenerExporterWrapper<T> implements Exporter<T> {
 
     private final List<ExporterListener> listeners;
 
+    //export的时候需要通知监听器 ExporterListener
     public ListenerExporterWrapper(Exporter<T> exporter, List<ExporterListener> listeners) {
         if (exporter == null) {
             throw new IllegalArgumentException("exporter == null");
@@ -65,6 +66,7 @@ public class ListenerExporterWrapper<T> implements Exporter<T> {
         return exporter.getInvoker();
     }
 
+    //取消暴露的时候也需要通知所有的监听器
     @Override
     public void unexport() {
         try {

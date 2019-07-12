@@ -31,6 +31,9 @@ class InjvmExporter<T> extends AbstractExporter<T> {
 
     private final Map<String, Exporter<?>> exporterMap;
 
+    /**
+     * 暴露服务，将自己暴露到传入的map中，同时需要记录map，因为destory的时候需要移除，这样就不用传入map了
+     */
     InjvmExporter(Invoker<T> invoker, String key, Map<String, Exporter<?>> exporterMap) {
         super(invoker);
         this.key = key;

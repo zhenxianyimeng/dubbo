@@ -36,6 +36,7 @@ import static org.apache.dubbo.rpc.Constants.EXPORTER_LISTENER_KEY;
 
 /**
  * ListenerProtocol
+ * 监听Exporter 暴露完成或者取消暴露的完成事件
  */
 public class ProtocolListenerWrapper implements Protocol {
 

@@ -115,12 +115,14 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
      * <p>
      * Actually，when the {@link ExtensionLoader} init the {@link Protocol} instants,it will automatically wraps two
      * layers, and eventually will get a <b>ProtocolFilterWrapper</b> or <b>ProtocolListenerWrapper</b>
+     * 自适应 Protocol实现对象
      */
     private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
 
     /**
      * A {@link ProxyFactory} implementation that will generate a exported service proxy,the JavassistProxyFactory is its
      * default implementation
+     * 自适应 ProxyFactory 对应接口
      */
     private static final ProxyFactory PROXY_FACTORY = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getAdaptiveExtension();
 
@@ -140,7 +142,13 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     private final List<URL> urls = new ArrayList<URL>();
 
     /**
-     * The exported services
+     * 服务配置暴露的 Exporter 列表 。
+     * URL ：Exporter 不一定是 1：1 的关系。
+     * 例如 {@link #scope} 未设置时，会暴露 Local + Remote 两个，也就是 URL ：Exporter = 1：2
+     *      {@link #scope} 设置为空时，不会暴露，也就是 URL ：Exporter = 1：0
+     *      {@link #scope} 设置为 Local 或 Remote 任一时，会暴露 Local 或 Remote 一个，也就是 URL ：Exporter = 1：1
+     *
+     * 非配置。
      */
     private final List<Exporter<?>> exporters = new ArrayList<Exporter<?>>();
 
@@ -151,11 +159,13 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
     /**
      * The interface class of the exported service
+     * 待暴露接口类
      */
     private Class<?> interfaceClass;
 
     /**
      * The reference of the interface implementation
+     * 暴露对象
      */
     private T ref;
 
@@ -447,9 +457,14 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         unexported = true;
     }
 
+    /**
+     * 本地暴露不回注册到zk，远程暴露会注册到zk
+     *
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void doExportUrls() {
         List<URL> registryURLs = loadRegistries(true);
+        //逐个向注册中心暴露服务
         for (ProtocolConfig protocolConfig : protocols) {
             String pathKey = URL.buildKey(getContextPath(protocolConfig).map(p -> p + "/" + path).orElse(path), group, version);
             ProviderModel providerModel = new ProviderModel(pathKey, ref, interfaceClass);
@@ -457,6 +472,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             doExportUrlsFor1Protocol(protocolConfig, registryURLs);
         }
     }
+
 
     private void doExportUrlsFor1Protocol(ProtocolConfig protocolConfig, List<URL> registryURLs) {
         String name = protocolConfig.getName();
@@ -572,6 +588,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         if (!SCOPE_NONE.equalsIgnoreCase(scope)) {
 
             // export to local if the config is not remote (export to remote only when config is remote)
+            //非 remote请款下，暴露方法到本地
             if (!SCOPE_REMOTE.equalsIgnoreCase(scope)) {
                 exportLocal(url);
             }
@@ -630,13 +647,18 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     @SuppressWarnings({"unchecked", "rawtypes"})
     /**
      * always export injvm
+     * 本地服务暴露
      */
     private void exportLocal(URL url) {
+        //本地dubbo URL对象，将原来URL对象属性覆盖
         URL local = URLBuilder.from(url)
                 .setProtocol(LOCAL_PROTOCOL)
                 .setHost(LOCALHOST_VALUE)
                 .setPort(0)
                 .build();
+        // 使用 ProxyFactory 创建 Invoker 对象
+        // 使用 Protocol 暴露 Invoker 对象
+        // Invoker是作为动态代理使用，Invoker.invoke() 即是调用service的方法
         Exporter<?> exporter = protocol.export(
                 PROXY_FACTORY.getInvoker(ref, (Class) interfaceClass, local));
         exporters.add(exporter);
