@@ -364,10 +364,12 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
      *
      * Load the monitor config from the system properties and conversation it to {@link URL}
      * monitor地址也需要转换为URL
+     *
      * @param registryURL
      * @return
      */
     protected URL loadMonitor(URL registryURL) {
+        // 从 属性配置 中加载配置到 MonitorConfig 对象。
         checkMonitor();
         Map<String, String> map = new HashMap<String, String>();
         map.put(INTERFACE_KEY, MonitorService.class.getName());
