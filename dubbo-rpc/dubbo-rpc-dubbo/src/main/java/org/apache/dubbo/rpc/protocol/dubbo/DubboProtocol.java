@@ -98,6 +98,7 @@ public class DubboProtocol extends AbstractProtocol {
 
     /**
      * <host:port,Exchanger>
+     *     通讯服务器集合，格式为host:port
      */
     private final Map<String, ExchangeServer> serverMap = new ConcurrentHashMap<>();
     /**
@@ -303,7 +304,9 @@ public class DubboProtocol extends AbstractProtocol {
             }
         }
 
+        //启动服务
         openServer(url);
+        //优化序列化方法
         optimizeSerialization(url);
 
         return exporter;
@@ -312,6 +315,7 @@ public class DubboProtocol extends AbstractProtocol {
     private void openServer(URL url) {
         // find server.
         String key = url.getAddress();
+        //可以暴露一个仅当前JVM课调用的服务，目前该配置项已经不存在
         //client can export a service which's only for server to invoke
         boolean isServer = url.getParameter(IS_SERVER_KEY, true);
         if (isServer) {
@@ -330,6 +334,12 @@ public class DubboProtocol extends AbstractProtocol {
         }
     }
 
+    /**
+     * 创建并启动通讯服务器
+     * @param url
+     * @return
+     */
+    //fixme find duplicate code zhenxianyimeng
     private ExchangeServer createServer(URL url) {
         url = URLBuilder.from(url)
                 // send readonly event when server closes, it's enabled by default

@@ -120,6 +120,7 @@ public class RegistryProtocol implements Protocol {
     };
 
     private final static Logger logger = LoggerFactory.getLogger(RegistryProtocol.class);
+    //单例模式，在dubbo SPI中仅被初始化一次
     private static RegistryProtocol INSTANCE;
     private final Map<URL, NotifyListener> overrideListeners = new ConcurrentHashMap<>();
     private final Map<String, ServiceConfigurationListener> serviceConfigurationListeners = new ConcurrentHashMap<>();
@@ -128,6 +129,7 @@ public class RegistryProtocol implements Protocol {
     //providerurl <--> exporter
     private final ConcurrentMap<String, ExporterChangeableWrapper<?>> bounds = new ConcurrentHashMap<>();
     private Cluster cluster;
+    //自适应拓展类，通过dubbo spi 自动注入
     private Protocol protocol;
     private RegistryFactory registryFactory;
     private ProxyFactory proxyFactory;
@@ -192,14 +194,17 @@ public class RegistryProtocol implements Protocol {
 
     @Override
     public <T> Exporter<T> export(final Invoker<T> originInvoker) throws RpcException {
+        //注册中心url
         URL registryUrl = getRegistryUrl(originInvoker);
         // url to export locally
+        //获得提供者url
         URL providerUrl = getProviderUrl(originInvoker);
 
         // Subscribe the override data
         // FIXME When the provider subscribes, it will affect the scene : a certain JVM exposes the service and call
         //  the same service. Because the subscribed is cached key with the name of the service, it causes the
         //  subscription information to cover.
+        //订阅配置规则
         final URL overrideSubscribeUrl = getSubscribedOverrideUrl(providerUrl);
         final OverrideListener overrideSubscribeListener = new OverrideListener(overrideSubscribeUrl, originInvoker);
         overrideListeners.put(overrideSubscribeUrl, overrideSubscribeListener);
@@ -214,6 +219,7 @@ public class RegistryProtocol implements Protocol {
         ProviderInvokerWrapper<T> providerInvokerWrapper = ProviderConsumerRegTable.registerProvider(originInvoker,
                 registryUrl, registeredProviderUrl);
         //to judge if we need to delay publish
+        //获取配置项信息，服务提供者是否配置到注册中心
         boolean register = registeredProviderUrl.getParameter("register", true);
         if (register) {
             register(registryUrl, registeredProviderUrl);
@@ -236,10 +242,18 @@ public class RegistryProtocol implements Protocol {
         return serviceConfigurationListener.overrideUrl(providerUrl);
     }
 
+    /**
+     * 暴露服务
+     * 此处的Local指的是，本地服务启动，但是暂时不向注册中心注册，注册中心注册的逻辑有后续代码提供
+     * @param originInvoker
+     * @param providerUrl
+     * @param <T>
+     * @return
+     */
     @SuppressWarnings("unchecked")
     private <T> ExporterChangeableWrapper<T> doLocalExport(final Invoker<T> originInvoker, URL providerUrl) {
         String key = getCacheKey(originInvoker);
-
+        //bounds 用于记录已经暴露过的服务，防止服务被重复暴露
         return (ExporterChangeableWrapper<T>) bounds.computeIfAbsent(key, s -> {
             Invoker<?> invokerDelegate = new InvokerDelegate<>(originInvoker, providerUrl);
             return new ExporterChangeableWrapper<>((Exporter<T>) protocol.export(invokerDelegate), originInvoker);
