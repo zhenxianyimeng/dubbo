@@ -21,9 +21,17 @@ import org.apache.dubbo.common.extension.Adaptive;
 import org.apache.dubbo.common.extension.SPI;
 import org.apache.dubbo.remoting.Constants;
 
+/**
+ * 默认curator
+ */
 @SPI("curator")
 public interface ZookeeperTransporter {
 
+    /**
+     * 创建ZookeeperClient
+     * @param url
+     * @return
+     */
     @Adaptive({Constants.CLIENT_KEY, Constants.TRANSPORTER_KEY})
     ZookeeperClient connect(URL url);
 

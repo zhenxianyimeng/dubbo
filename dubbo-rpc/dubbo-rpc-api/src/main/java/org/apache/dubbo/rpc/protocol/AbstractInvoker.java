@@ -45,8 +45,14 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * 接口类型
+     */
     private final Class<T> type;
 
+    /**
+     * 服务url
+     */
     private final URL url;
 
     private final Map<String, String> attachment;

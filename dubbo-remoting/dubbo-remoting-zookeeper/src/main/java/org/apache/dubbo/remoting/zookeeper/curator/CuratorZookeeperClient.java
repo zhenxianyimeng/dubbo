@@ -65,12 +65,13 @@ public class CuratorZookeeperClient extends AbstractZookeeperClient<CuratorZooke
             CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
                     .connectString(url.getBackupAddress())
                     .retryPolicy(new RetryNTimes(1, 1000))
-                    .connectionTimeoutMs(timeout);
+                    .connectionTimeoutMs(timeout);//创建连接，重试一次
             String authority = url.getAuthority();
             if (authority != null && authority.length() > 0) {
                 builder = builder.authorization("digest", authority.getBytes());
             }
             client = builder.build();
+            //添加监听器
             client.getConnectionStateListenable().addListener(new ConnectionStateListener() {
                 @Override
                 public void stateChanged(CuratorFramework client, ConnectionState state) {
@@ -89,6 +90,7 @@ public class CuratorZookeeperClient extends AbstractZookeeperClient<CuratorZooke
         }
     }
 
+    //persistent持久节点
     @Override
     public void createPersistent(String path) {
         try {
@@ -99,6 +101,7 @@ public class CuratorZookeeperClient extends AbstractZookeeperClient<CuratorZooke
         }
     }
 
+    //临时节点
     @Override
     public void createEphemeral(String path) {
         try {

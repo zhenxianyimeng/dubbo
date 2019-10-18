@@ -35,6 +35,9 @@ public abstract class AbstractZookeeperClient<TargetDataListener, TargetChildLis
 
     protected static final Logger logger = LoggerFactory.getLogger(AbstractZookeeperClient.class);
 
+    /**
+     * 注册中心
+     */
     private final URL url;
 
     private final Set<StateListener> stateListeners = new CopyOnWriteArraySet<StateListener>();
