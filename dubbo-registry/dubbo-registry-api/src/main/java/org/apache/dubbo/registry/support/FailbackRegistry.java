@@ -226,6 +226,10 @@ public abstract class FailbackRegistry extends AbstractRegistry {
         return failedNotified;
     }
 
+    /**
+     * 失败重试，现充列表删除，在重试
+     * @param url
+     */
     @Override
     public void register(URL url) {
         super.register(url);
@@ -372,6 +376,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
     @Override
     protected void recover() throws Exception {
         // register
+        // 恢复注册，定时重试
         Set<URL> recoverRegistered = new HashSet<URL>(getRegistered());
         if (!recoverRegistered.isEmpty()) {
             if (logger.isInfoEnabled()) {
@@ -382,6 +387,7 @@ public abstract class FailbackRegistry extends AbstractRegistry {
             }
         }
         // subscribe
+        // 恢复订阅，定时重试
         Map<URL, Set<NotifyListener>> recoverSubscribed = new HashMap<URL, Set<NotifyListener>>(getSubscribed());
         if (!recoverSubscribed.isEmpty()) {
             if (logger.isInfoEnabled()) {
