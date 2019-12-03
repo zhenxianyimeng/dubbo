@@ -410,6 +410,9 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
         return (delay == null && provider != null) ? provider.getDelay() : delay;
     }
 
+    /**
+     * 服务提供者，开始暴露服务
+     */
     protected synchronized void doExport() {
         if (unexported) {
             throw new IllegalStateException("The service " + interfaceClass.getName() + " has already unexported!");
@@ -464,7 +467,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void doExportUrls() {
         List<URL> registryURLs = loadRegistries(true);
-        //逐个向注册中心暴露服务
+        //逐个向注册中心暴露服务，支持多个注册中心，多个协议
         for (ProtocolConfig protocolConfig : protocols) {
             String pathKey = URL.buildKey(getContextPath(protocolConfig).map(p -> p + "/" + path).orElse(path), group, version);
             ProviderModel providerModel = new ProviderModel(pathKey, ref, interfaceClass);

@@ -159,6 +159,7 @@ public class RedisRegistry extends FailbackRegistry {
                 host = address;
                 port = DEFAULT_REDIS_PORT;
             }
+            //创建连接池，并且加入集合
             this.jedisPools.put(address, new JedisPool(config, host, port,
                     url.getParameter(TIMEOUT_KEY, DEFAULT_TIMEOUT), StringUtils.isEmpty(url.getPassword()) ? null : url.getPassword(),
                     url.getParameter("db.index", 0)));
@@ -173,8 +174,9 @@ public class RedisRegistry extends FailbackRegistry {
             group = group + PATH_SEPARATOR;
         }
         this.root = group;
-
+        //过期时间配置
         this.expirePeriod = url.getParameter(SESSION_TIMEOUT_KEY, DEFAULT_SESSION_TIMEOUT);
+        //过期清理线程
         this.expireFuture = expireExecutor.scheduleWithFixedDelay(() -> {
             try {
                 deferExpired(); // Extend the expiration time

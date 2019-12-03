@@ -351,7 +351,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         return new ConsumerModel(serviceKey, serviceInterface, ref, methods, attributes);
     }
 
-    //创建代理对象
+    //创建代理对象，消费端的代理对象
     @SuppressWarnings({"unchecked", "rawtypes", "deprecation"})
     private T createProxy(Map<String, String> map) {
         //本地引用
