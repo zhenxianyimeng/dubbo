@@ -214,6 +214,7 @@ public class RedisRegistry extends FailbackRegistry {
 
     // The monitoring center is responsible for deleting outdated dirty data
     private void clean(Jedis jedis) {
+        //获取是所有服务
         Set<String> keys = jedis.keys(root + ANY_VALUE);
         if (CollectionUtils.isNotEmpty(keys)) {
             for (String key : keys) {
@@ -393,6 +394,11 @@ public class RedisRegistry extends FailbackRegistry {
         }
     }
 
+    /**
+     * 取消订阅，根据expire时间做清理
+     * @param url
+     * @param listener
+     */
     @Override
     public void doUnsubscribe(URL url, NotifyListener listener) {
     }
@@ -485,6 +491,9 @@ public class RedisRegistry extends FailbackRegistry {
         return toServicePath(url) + PATH_SEPARATOR + url.getParameter(CATEGORY_KEY, DEFAULT_CATEGORY);
     }
 
+    /**
+     * 订阅类
+     */
     private class NotifySub extends JedisPubSub {
 
         private final JedisPool jedisPool;

@@ -38,9 +38,13 @@
             <artifactId>dubbo-demo-interface</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.dubbo</groupId>-->
+<!--            <artifactId>dubbo-registry-multicast</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-registry-multicast</artifactId>
+            <artifactId>dubbo-registry-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
