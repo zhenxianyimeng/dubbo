@@ -131,6 +131,7 @@ final class NettyChannel extends AbstractChannel {
         boolean success = true;
         int timeout = 0;
         try {
+            //netty channel 发送消息
             ChannelFuture future = channel.writeAndFlush(message);
             if (sent) {
                 // wait timeout ms
@@ -150,6 +151,9 @@ final class NettyChannel extends AbstractChannel {
         }
     }
 
+    /**
+     * 关闭通道
+     */
     @Override
     public void close() {
         try {

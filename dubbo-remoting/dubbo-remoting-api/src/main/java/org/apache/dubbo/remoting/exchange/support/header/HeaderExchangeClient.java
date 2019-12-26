@@ -52,6 +52,7 @@ public class HeaderExchangeClient implements ExchangeClient {
     private HeartbeatTimerTask heartBeatTimerTask;
     private ReconnectTimerTask reconnectTimerTask;
 
+    //创建消息发送方，ReferenceBean的引用方
     public HeaderExchangeClient(Client client, boolean startTimer) {
         Assert.notNull(client, "Client can't be null");
         this.client = client;

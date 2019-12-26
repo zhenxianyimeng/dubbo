@@ -74,6 +74,7 @@ public class TomcatHttpServer extends AbstractHttpServer {
         System.setProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE", "true");
 
         try {
+            //启动tomcat
             tomcat.start();
         } catch (LifecycleException e) {
             throw new IllegalStateException("Failed to start tomcat server at " + url.getAddress(), e);

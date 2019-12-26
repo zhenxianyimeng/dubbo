@@ -37,6 +37,10 @@ public class HeartbeatTimerTask extends AbstractTimerTask {
         this.heartbeat = heartbeat;
     }
 
+    /**
+     * 心跳
+     * @param channel
+     */
     @Override
     protected void doTask(Channel channel) {
         try {
