@@ -110,6 +110,7 @@ public class AccessLogFilter implements Filter {
         } catch (Throwable t) {
             logger.warn("Exception in AccessLogFilter of service(" + invoker + " -> " + inv + ")", t);
         }
+        //调用下一个filter
         return invoker.invoke(inv);
     }
 

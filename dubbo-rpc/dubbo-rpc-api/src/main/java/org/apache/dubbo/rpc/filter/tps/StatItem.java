@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.LongAdder;
 /**
  * Judge whether a particular invocation of service provider method should be allowed within a configured time interval.
  * As a state it contain name of key ( e.g. method), last invocation time, interval and rate count.
+ * 统计类
  */
 class StatItem {
 

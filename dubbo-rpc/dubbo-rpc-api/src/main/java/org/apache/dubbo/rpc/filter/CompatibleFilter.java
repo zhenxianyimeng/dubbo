@@ -42,7 +42,7 @@ import static org.apache.dubbo.remoting.Constants.SERIALIZATION_KEY;
  *    local jvm then POJO conversion.
  *    3)If return value is other than above return value as it is.
  * </pre>
- *
+ *  做兼容性转换
  * @see Filter
  *
  */

@@ -31,7 +31,7 @@ import static org.apache.dubbo.common.constants.CommonConstants.CONSUMER;
 /**
  * ConsumerContextFilter set current RpcContext with invoker,invocation, local host, remote host and port
  * for consumer invoker.It does it to make the requires info available to execution thread's RpcContext.
- *
+ * 记录一次rpc调用的context
  * @see org.apache.dubbo.rpc.Filter
  * @see RpcContext
  */

@@ -41,6 +41,7 @@ import static org.apache.dubbo.rpc.Constants.ACTIVES_KEY;
  *      will wait for configured timeout(default is 0 second) before invocation gets kill by dubbo.
  * </pre>
  *
+ * 每个服务每个方法的最大并行调用数量限制
  * @see Filter
  */
 @Activate(group = CONSUMER, value = ACTIVES_KEY)

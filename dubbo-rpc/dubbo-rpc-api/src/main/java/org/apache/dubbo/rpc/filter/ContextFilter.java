@@ -44,7 +44,7 @@ import static org.apache.dubbo.rpc.Constants.TOKEN_KEY;
 /**
  * ContextFilter set the provider RpcContext with invoker, invocation, local port it is using and host for
  * current execution thread.
- *
+ *  RpcContext 类似 ThreadLocal
  * @see RpcContext
  */
 @Activate(group = PROVIDER, order = -10000)
