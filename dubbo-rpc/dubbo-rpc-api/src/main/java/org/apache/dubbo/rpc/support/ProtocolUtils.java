@@ -52,6 +52,7 @@ public class ProtocolUtils {
         return buf.toString();
     }
 
+    //TODO new pr
     public static boolean isGeneric(String generic) {
         return generic != null
                 && !"".equals(generic)

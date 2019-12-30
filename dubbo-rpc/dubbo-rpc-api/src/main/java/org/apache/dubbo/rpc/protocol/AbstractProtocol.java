@@ -53,6 +53,11 @@ public abstract class AbstractProtocol implements Protocol {
     //TODO SoftReference
     protected final Set<Invoker<?>> invokers = new ConcurrentHashSet<Invoker<?>>();
 
+    /**
+     * 得到服务key group+"/"+serviceName+":"+serviceVersion+":"+port
+     * @param url
+     * @return
+     */
     protected static String serviceKey(URL url) {
         int port = url.getParameter(Constants.BIND_PORT_KEY, url.getPort());
         return serviceKey(port, url.getPath(), url.getParameter(VERSION_KEY), url.getParameter(GROUP_KEY));
