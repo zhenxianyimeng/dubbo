@@ -24,6 +24,7 @@ import org.apache.dubbo.rpc.RpcException;
 
 /**
  * InvokerWrapper
+ * 类包装器，目前还没包装
  */
 public class InvokerWrapper<T> implements Invoker<T> {
 

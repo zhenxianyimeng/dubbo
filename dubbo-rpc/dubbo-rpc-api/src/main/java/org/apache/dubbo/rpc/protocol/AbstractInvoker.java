@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * AbstractInvoker.
+ * 抽象Invoker方法
  */
 public abstract class AbstractInvoker<T> implements Invoker<T> {
 
@@ -55,10 +56,19 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
      */
     private final URL url;
 
+    /**
+     * 附加值
+     */
     private final Map<String, String> attachment;
 
+    /**
+     * 是否可用
+     */
     private volatile boolean available = true;
 
+    /**
+     * 是否销毁
+     */
     private AtomicBoolean destroyed = new AtomicBoolean(false);
 
     public AbstractInvoker(Class<T> type, URL url) {
@@ -81,6 +91,12 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
         this.attachment = attachment == null ? null : Collections.unmodifiableMap(attachment);
     }
 
+    /**
+     * url中的值吗，转换
+     * @param url
+     * @param keys
+     * @return
+     */
     private static Map<String, String> convertAttachment(URL url, String[] keys) {
         if (ArrayUtils.isEmpty(keys)) {
             return null;
@@ -131,6 +147,12 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
         return getInterface() + " -> " + (getUrl() == null ? "" : getUrl().toString());
     }
 
+    /**
+     * 抽象一些公共逻辑，具体的invoke在子类的doInvoke中实现
+     * @param inv
+     * @return
+     * @throws RpcException
+     */
     @Override
     public Result invoke(Invocation inv) throws RpcException {
         // if invoker is destroyed due to address refresh from registry, let's allow the current invoke to proceed
@@ -158,6 +180,9 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
         RpcUtils.attachInvocationIdIfAsync(getUrl(), invocation);
 
         try {
+            /**
+             * 各个协议自己实现
+             */
             return doInvoke(invocation);
         } catch (InvocationTargetException e) { // biz exception
             Throwable te = e.getTargetException();

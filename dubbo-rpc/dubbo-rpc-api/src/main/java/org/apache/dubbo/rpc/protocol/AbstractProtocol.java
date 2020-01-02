@@ -43,7 +43,7 @@ public abstract class AbstractProtocol implements Protocol {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * 服务暴露者集合
+     * 服务暴露者集合， 暴露的uri作为key
      */
     protected final Map<String, Exporter<?>> exporterMap = new ConcurrentHashMap<String, Exporter<?>>();
 
@@ -76,6 +76,7 @@ public abstract class AbstractProtocol implements Protocol {
                     if (logger.isInfoEnabled()) {
                         logger.info("Destroy reference: " + invoker.getUrl());
                     }
+                    //销毁引用
                     invoker.destroy();
                 } catch (Throwable t) {
                     logger.warn(t.getMessage(), t);
@@ -89,6 +90,7 @@ public abstract class AbstractProtocol implements Protocol {
                     if (logger.isInfoEnabled()) {
                         logger.info("Unexport service: " + exporter.getInvoker().getUrl());
                     }
+                    //取消暴露
                     exporter.unexport();
                 } catch (Throwable t) {
                     logger.warn(t.getMessage(), t);
