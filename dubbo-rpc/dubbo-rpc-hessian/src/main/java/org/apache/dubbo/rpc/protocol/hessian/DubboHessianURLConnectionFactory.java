@@ -26,6 +26,9 @@ import com.caucho.hessian.client.HessianURLConnectionFactory;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * hessian 基于http的
+ */
 public class DubboHessianURLConnectionFactory extends HessianURLConnectionFactory {
 
     @Override

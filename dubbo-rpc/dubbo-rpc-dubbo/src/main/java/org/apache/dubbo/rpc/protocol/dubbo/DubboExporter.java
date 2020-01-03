@@ -29,6 +29,7 @@ public class DubboExporter<T> extends AbstractExporter<T> {
 
     private final String key;
 
+    //服务暴露的集合
     private final Map<String, Exporter<?>> exporterMap;
 
     public DubboExporter(Invoker<T> invoker, String key, Map<String, Exporter<?>> exporterMap) {

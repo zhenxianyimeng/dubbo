@@ -113,6 +113,9 @@ public class DubboProtocol extends AbstractProtocol {
      */
     private final ConcurrentMap<String, String> stubServiceMethodsMap = new ConcurrentHashMap<>();
 
+    /**
+     * dubbo协议实现的交换层
+     */
     private ExchangeHandler requestHandler = new ExchangeHandlerAdapter() {
 
         @Override
@@ -306,12 +309,16 @@ public class DubboProtocol extends AbstractProtocol {
 
         //启动服务
         openServer(url);
-        //优化序列化方法
+        //优化序列化方法去，序列化类加入集合，以便进行序列化
         optimizeSerialization(url);
 
         return exporter;
     }
 
+    /**
+     * 打开新服务
+     * @param url
+     */
     private void openServer(URL url) {
         // find server.
         String key = url.getAddress();
@@ -409,6 +416,7 @@ public class DubboProtocol extends AbstractProtocol {
         }
     }
 
+    //服务引用，创新新的DubboInvoker然后放入到集合
     @Override
     public <T> Invoker<T> protocolBindingRefer(Class<T> serviceType, URL url) throws RpcException {
         optimizeSerialization(url);
@@ -582,7 +590,7 @@ public class DubboProtocol extends AbstractProtocol {
 
     /**
      * Create new connection
-     *
+     * 创建一个新的客户端连接
      * @param url
      */
     private ExchangeClient initClient(URL url) {

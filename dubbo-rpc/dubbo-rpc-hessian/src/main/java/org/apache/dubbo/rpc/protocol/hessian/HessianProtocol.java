@@ -56,6 +56,7 @@ import static org.apache.dubbo.rpc.protocol.hessian.Constants.DEFAULT_HTTP_CLIEN
 
 /**
  * http rpc support.
+ * hessian协议的实现
  */
 public class HessianProtocol extends AbstractProxyProtocol {
 
@@ -92,7 +93,9 @@ public class HessianProtocol extends AbstractProxyProtocol {
 
         final String genericPath = path + "/" + GENERIC_KEY;
         skeletonMap.put(genericPath, new HessianSkeleton(impl, GenericService.class));
-
+        /**
+         * 返回一个带server的线程
+         */
         return new Runnable() {
             @Override
             public void run() {
@@ -118,6 +121,7 @@ public class HessianProtocol extends AbstractProxyProtocol {
         boolean isOverloadEnabled = url.getParameter(HESSIAN_OVERLOAD_METHOD_KEY, DEFAULT_HESSIAN_OVERLOAD_METHOD);
         hessianProxyFactory.setOverloadEnabled(isOverloadEnabled);
         String client = url.getParameter(CLIENT_KEY, DEFAULT_HTTP_CLIENT);
+        //TODO zhenxianyimeng httpclient 魔法值
         if ("httpclient".equals(client)) {
             HessianConnectionFactory factory = new HttpClientConnectionFactory();
             factory.setHessianProxyFactory(hessianProxyFactory);

@@ -104,6 +104,9 @@ class ChannelWrappedInvoker<T> extends AbstractInvoker<T> {
 //        }
     }
 
+    /**
+     * 编码变成dubbocodec
+     */
     public static class ChannelWrapper extends ClientDelegate {
 
         private final Channel channel;
