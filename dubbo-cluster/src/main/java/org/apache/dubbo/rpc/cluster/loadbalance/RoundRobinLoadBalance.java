@@ -35,7 +35,10 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class RoundRobinLoadBalance extends AbstractLoadBalance {
     public static final String NAME = "roundrobin";
-    
+
+    /**
+     * 回收时间，更新节点上的信息
+     */
     private static final int RECYCLE_PERIOD = 60000;
     
     protected static class WeightedRoundRobin {

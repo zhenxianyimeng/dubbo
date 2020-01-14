@@ -85,6 +85,7 @@ import static org.apache.dubbo.common.constants.RegistryConstants.ROUTE_PROTOCOL
 
 /**
  * RegistryDirectory
+ * 感知注册中心的变化，相应的invoker也变化
  */
 public class RegistryDirectory<T> extends AbstractDirectory<T> implements NotifyListener {
 

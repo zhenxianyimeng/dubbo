@@ -29,6 +29,7 @@ import java.util.List;
  * <a href="http://en.wikipedia.org/wiki/Directory_service">Directory Service</a>
  *
  * @see org.apache.dubbo.rpc.cluster.Cluster#join(Directory)
+ * 可以理解类似zookeeper中的一个文件夹
  */
 public interface Directory<T> extends Node {
 

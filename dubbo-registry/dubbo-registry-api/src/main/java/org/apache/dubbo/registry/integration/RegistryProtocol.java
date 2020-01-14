@@ -219,6 +219,7 @@ public class RegistryProtocol implements Protocol {
         ProviderInvokerWrapper<T> providerInvokerWrapper = ProviderConsumerRegTable.registerProvider(originInvoker,
                 registryUrl, registeredProviderUrl);
         //to judge if we need to delay publish
+        // -------------------开始服务注册-------------------
         //获取配置项信息，服务提供者是否配置到注册中心
         boolean register = registeredProviderUrl.getParameter("register", true);
         if (register) {
@@ -256,6 +257,7 @@ public class RegistryProtocol implements Protocol {
         //bounds 用于记录已经暴露过的服务，防止服务被重复暴露
         return (ExporterChangeableWrapper<T>) bounds.computeIfAbsent(key, s -> {
             Invoker<?> invokerDelegate = new InvokerDelegate<>(originInvoker, providerUrl);
+            //根据协议暴露服务，默认dubbo协议
             return new ExporterChangeableWrapper<>((Exporter<T>) protocol.export(invokerDelegate), originInvoker);
         });
     }
