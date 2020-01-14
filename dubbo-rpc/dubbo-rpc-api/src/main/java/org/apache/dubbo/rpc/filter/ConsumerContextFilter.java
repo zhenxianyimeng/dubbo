@@ -42,6 +42,13 @@ public class ConsumerContextFilter extends ListenableFilter {
         super.listener = new ConsumerContextListener();
     }
 
+    /**
+     * 会话域上下文
+     * @param invoker
+     * @param invocation
+     * @return
+     * @throws RpcException
+     */
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcContext.getContext()

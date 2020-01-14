@@ -203,8 +203,10 @@ public class FutureFilter extends ListenableFilter {
         @Override
         public void onResponse(Result result, Invoker<?> invoker, Invocation invocation) {
             if (result.hasException()) {
+                //异常结果
                 fireThrowCallback(invoker, invocation, result.getException());
             } else {
+                //正常结果
                 fireReturnCallback(invoker, invocation, result.getValue());
             }
         }

@@ -30,6 +30,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * This class will work as a wrapper wrapping outside of each protocol invoker.
+ * 它的作用是把异步结果转化为同步结果。新的改动中每个调用只要不是oneway方式调用都会先以异步调用开始，然后根据配置的情况如果是同步调用，则会在这个类中进行异步结果转同步的处理。当然，这里先是执行了invoke，然后就进入下一个AbstractInvoker的invoke了。
  * @param <T>
  */
 public class AsyncToSyncInvoker<T> implements Invoker<T> {

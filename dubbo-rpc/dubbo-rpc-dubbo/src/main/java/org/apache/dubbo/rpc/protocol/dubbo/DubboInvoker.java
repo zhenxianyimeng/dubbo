@@ -102,6 +102,7 @@ public class DubboInvoker<T> extends AbstractInvoker<T> {
             } else {
                 AsyncRpcResult asyncRpcResult = new AsyncRpcResult(inv);
                 CompletableFuture<Object> responseFuture = currentClient.request(inv, timeout);
+                //增加调用监听
                 asyncRpcResult.subscribeTo(responseFuture);
                 RpcContext.getContext().setFuture(new FutureAdapter(asyncRpcResult));
                 return asyncRpcResult;

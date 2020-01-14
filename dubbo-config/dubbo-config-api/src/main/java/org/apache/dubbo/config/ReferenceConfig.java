@@ -249,6 +249,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         if (destroyed) {
             throw new IllegalStateException("The invoker of ReferenceConfig(" + url + ") has already destroyed!");
         }
+        // 检测代理对象ref 是否为空，为空则通过init() 创建
         if (ref == null) {
             init();
         }
@@ -329,7 +330,7 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
             throw new IllegalArgumentException("Specified invalid registry ip from property:" + DUBBO_IP_TO_REGISTRY + ", value:" + hostToRegistry);
         }
         map.put(REGISTER_IP_KEY, hostToRegistry);
-
+        //创建代理对象
         ref = createProxy(map);
 
         String serviceKey = URL.buildKey(interfaceName, group, version);

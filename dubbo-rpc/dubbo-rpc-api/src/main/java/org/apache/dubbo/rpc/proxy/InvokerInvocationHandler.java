@@ -35,6 +35,7 @@ public class InvokerInvocationHandler implements InvocationHandler {
         this.invoker = handler;
     }
 
+    //服务引用方入口
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         String methodName = method.getName();
@@ -51,7 +52,7 @@ public class InvokerInvocationHandler implements InvocationHandler {
         if ("equals".equals(methodName) && parameterTypes.length == 1) {
             return invoker.equals(args[0]);
         }
-
+        //创建RpcInvocation 再调用
         return invoker.invoke(new RpcInvocation(method, args)).recreate();
     }
 }

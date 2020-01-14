@@ -148,7 +148,7 @@ public abstract class AbstractInvoker<T> implements Invoker<T> {
     }
 
     /**
-     * 抽象一些公共逻辑，具体的invoke在子类的doInvoke中实现
+     * 抽象一些公共逻辑，具体的invoke在子类的doInvoke中实现，实例代码中执行DubboInvoker中的invoke
      * @param inv
      * @return
      * @throws RpcException
